@@ -6,13 +6,11 @@ let isRealString = (str) => {
     return typeof str === 'string' && str.trim().length > 0;
 };
 
-let validateCommand = (query) => {
+let validate = (required, query) => {
     let retval = {
         errors: null,
-        command: {}
+        data: {}
     };
-
-    const required = ['challenge', 'userid', 'userkey', 'commands']
 
     if (query) {
         for (let key in query) {
@@ -21,7 +19,7 @@ let validateCommand = (query) => {
                 if (!retval.errors.invalid) { retval.errors.invalid = []; }
                 retval.errors.invalid.push(key);
             } else {
-                retval.command[key] = query[key];
+                retval.data[key] = query[key];
 
                 if (key == 'commands') {
                     // Do additional checks!
@@ -31,7 +29,7 @@ let validateCommand = (query) => {
     }
 
     for (let param of required) {
-        if (!retval.command[param] || !isRealString(retval.command[param])) {
+        if (!retval.data[param] || !isRealString(retval.data[param])) {
             if (!retval.errors) { retval.errors = {}; }
             if (!retval.errors.missing) { retval.errors.missing = []; }
             retval.errors.missing.push(param);
@@ -41,4 +39,16 @@ let validateCommand = (query) => {
     return retval;
 }
 
-module.exports = { validateCommand };
+let validateUser = (query) => {
+
+    const required = ['username', 'usercode', 'challenge'];
+    return validate(required, query);
+}
+
+let validateCommand = (query) => {
+
+    const required = ['id', 'commands'];
+    return validate(required, query);
+}
+
+module.exports = { validateCommand, validateUser };
