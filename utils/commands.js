@@ -2,10 +2,11 @@ class Commands {
     constructor() {
         this.commands = [];
     }
-    addCommand (user, commands) {
+    addCommand (user, challenge, commands) {
         let timestamp = Date.now();
         let newcommand = {
             id: user.id,
+            challenge: challenge,
             timestamp: timestamp,
             commands: commands
         };

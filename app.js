@@ -59,7 +59,7 @@ app.get("/command", async function (req, res) {
             ret.data.code = 99;
             ret.data.text = "ERROR getting user " + ret.data.id;
         } else {
-            let newcommand = commands.addCommand(user, ret.data.commands);
+            let newcommand = commands.addCommand(user, ret.data.challenge, ret.data.commands);
             //            console.log("SEND TO " + challenge, newcommand);
             io.emit('newCommands', [newcommand]);
             ret.data.code = 1;
@@ -75,7 +75,7 @@ app.get("/hello", async function (req, res) {
 })
 
 io.on('connection', (socket) => {
-    console.log('New user connected');
+    console.log('New user connected: ', socket.connection);
 
     socket.on('challenge', (data) => {
         console.log("SERVER TIME challenge with ", data);
