@@ -31,7 +31,8 @@ app.get("/user", async function (req, res) {
         res.send(ret.errors);
     } else {
         let newobj = users.addUser(ret.data);
-        if (newobj && newobj.reason !== 'nochange') {
+        //        if (newobj && newobj.reason !== 'nochange') {
+        if (newobj) {
             console.log("ADDED A NEW USER EH!", newobj.user);
             io.emit('newUsers', [newobj.user]);
         }
