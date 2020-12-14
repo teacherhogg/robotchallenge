@@ -21,9 +21,9 @@ let validate = (required, query) => {
             } else {
                 retval.data[key] = query[key];
 
-                if (key == 'commands') {
-                    // Do additional checks!
-                }
+                //                if (key == 'commands') {
+                // Do additional checks!
+                //                }
             }
         }
     }

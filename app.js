@@ -54,7 +54,7 @@ app.get("/command", async function (req, res) {
         ret.errors.code = 99;
         res.send(ret.errors)
     } else {
-        let id = req.data.username + "-" + req.data.usercode;
+        let id = ret.data.username + "-" + ret.data.usercode;
         let user = users.getUser(id);
         if (!user) {
             ret.data.code = 99;
