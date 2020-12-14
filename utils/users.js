@@ -4,7 +4,7 @@ class Users {
         this.suffix = '-d637911234';
     }
     addUser (data) {
-        let id = data.username + "-" + data.usercode + this.suffix;
+        let id = data.username + "-" + data.usercode;
         let user = this.getUser(id);
         let reason = 'new';
         if (!user) {

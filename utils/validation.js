@@ -47,7 +47,7 @@ let validateUser = (query) => {
 
 let validateCommand = (query) => {
 
-    const required = ['id', 'commands', 'challenge'];
+    const required = ['username', 'usercode', 'challenge', 'commands'];
     return validate(required, query);
 }
 
