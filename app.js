@@ -72,7 +72,7 @@ app.get("/command", async function (req, res) {
 })
 
 app.get("/hello", async function (req, res) {
-    res.send("<h2>Hello World from Heroku!</h2>");
+    res.send("<h2>Hello World from Heroku on M14d20 at 1:50 PM!</h2>");
 })
 
 io.on('connection', (socket) => {
