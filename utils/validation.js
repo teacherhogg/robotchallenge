@@ -14,24 +14,35 @@ let validate = (required, query) => {
 
     if (query) {
         for (let key in query) {
-            if (!required.includes(key)) {
-                if (!retval.errors) { retval.errors = {}; }
-                if (!retval.errors.invalid) { retval.errors.invalid = []; }
-                retval.errors.invalid.push(key);
-            } else {
-                retval.data[key] = query[key];
+            // ignore random
+            if (key !== 'random') {
+                if (!required.includes(key)) {
+                    if (!retval.errors) {
+                        retval.errors = {};
+                    }
+                    if (!retval.errors.invalid) {
+                        retval.errors.invalid = [];
+                    }
+                    retval.errors.invalid.push(key);
+                } else {
+                    retval.data[key] = query[key];
 
-                //                if (key == 'commands') {
-                // Do additional checks!
-                //                }
+                    //                if (key == 'commands') {
+                    // Do additional checks!
+                    //                }
+                }
             }
         }
     }
 
     for (let param of required) {
         if (!retval.data[param] || !isRealString(retval.data[param])) {
-            if (!retval.errors) { retval.errors = {}; }
-            if (!retval.errors.missing) { retval.errors.missing = []; }
+            if (!retval.errors) {
+                retval.errors = {};
+            }
+            if (!retval.errors.missing) {
+                retval.errors.missing = [];
+            }
             retval.errors.missing.push(param);
         }
     }
@@ -51,4 +62,7 @@ let validateCommand = (query) => {
     return validate(required, query);
 }
 
-module.exports = { validateCommand, validateUser };
+module.exports = {
+    validateCommand,
+    validateUser
+};
