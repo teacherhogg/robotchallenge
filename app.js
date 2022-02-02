@@ -22,7 +22,7 @@ var users = new Users();
 
 app.use(express.static(publicPath));
 app.get("/user", async function (req, res) {
-    console.log("Got a new user call...", req.query);
+//    console.log("Got a new user call...", req.query);
 
     const ret = validateUser(req.query);
     if (!ret || ret.errors) {
@@ -31,9 +31,8 @@ app.get("/user", async function (req, res) {
         res.send(ret.errors);
     } else {
         let newobj = users.addUser(ret.data);
-        //        if (newobj && newobj.reason !== 'nochange') {
         if (newobj) {
-            console.log("ADDED A NEW USER EH!", newobj.user);
+            // Send newUsers command to Robot Dashboard
             io.emit('newUsers', [newobj.user]);
         }
         ret.data.id = newobj.user.id;
@@ -43,7 +42,7 @@ app.get("/user", async function (req, res) {
     }
 })
 app.get("/command", async function (req, res) {
-    console.log("Got a command call...");
+//    console.log("Got a command call...");
 
     //    for (let key in req.query) {
     //        console.log("QUERY PARAM " + key + " : " + req.query[key]);
@@ -77,20 +76,20 @@ app.get("/hello", async function (req, res) {
 })
 
 io.on('connection', (socket) => {
-    console.log('New user connected: ', socket.connection);
+//    console.log('New user connected: ', socket.connection);
 
     socket.on('challenge', (data) => {
-        console.log("SERVER TIME challenge with ", data);
+//        console.log("SERVER TIME challenge with ", data);
         // data is json with key challenge
         if (data && data.challenge) {
             let challenge = data.challenge;
 
             let ulist = users.getUserList(challenge);
-            console.log("SERVER: user list for challenge " + challenge, ulist);
+//            console.log("SERVER: user list for challenge " + challenge, ulist);
             io.emit('newUsers', ulist);
 
             let clist = commands.getCommandList(challenge);
-            console.log("SERVER: command list for challenge " + challenge, clist);
+ //           console.log("SERVER: command list for challenge " + challenge, clist);
             io.emit('newCommands', clist);
         }
 

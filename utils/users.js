@@ -8,21 +8,11 @@ class Users {
         let user = this.getUser(id);
         let reason = 'new';
         if (!user) {
-            user = {
-                id: id,
-                challenge: data.challenge,
-                username: data.username,
-                usercode: data.usercode
-            };
+            user = Object.assign({}, data);
+            user.id = id;
             this.users.push(user);
         } else {
-            if (user.challenge == data.challenge) {
-                // NO Change. NOT adding.
-                reason = 'nochange';
-            } else {
-                reason = 'xchallenge';
-                user.challenge = data.challenge;
-            }
+            reason = 'existing';
         }
         return {
             user: user,

@@ -6,7 +6,7 @@ let isRealString = (str) => {
     return typeof str === 'string' && str.trim().length > 0;
 };
 
-let validate = (required, query) => {
+let validate = (required, allowed, query) => {
     let retval = {
         errors: null,
         data: {}
@@ -14,9 +14,9 @@ let validate = (required, query) => {
 
     if (query) {
         for (let key in query) {
-            // ignore random
-            if (key !== 'random') {
-                if (!required.includes(key)) {
+            if (!required.includes(key)) {
+                if (!allowed.includes(key)) {
+                    // This key is not in required NOR allowed. Error.
                     if (!retval.errors) {
                         retval.errors = {};
                     }
@@ -26,11 +26,9 @@ let validate = (required, query) => {
                     retval.errors.invalid.push(key);
                 } else {
                     retval.data[key] = query[key];
-
-                    //                if (key == 'commands') {
-                    // Do additional checks!
-                    //                }
                 }
+            } else {
+                retval.data[key] = query[key];
             }
         }
     }
@@ -52,14 +50,16 @@ let validate = (required, query) => {
 
 let validateUser = (query) => {
 
-    const required = ['username', 'usercode', 'challenge'];
-    return validate(required, query);
+    const required = ['username', 'usercode'];
+    const allowed = ['random','challenge','group','firstname','lastname']
+    return validate(required, allowed, query);
 }
 
 let validateCommand = (query) => {
 
-    const required = ['username', 'usercode', 'challenge', 'commands'];
-    return validate(required, query);
+    const required = ['username', 'usercode', 'commands'];
+    const allowed = ['random', 'challenge', 'group','firstname','lastname'];
+    return validate(required, allowed, query);
 }
 
 module.exports = {
